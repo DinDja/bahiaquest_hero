@@ -1,0 +1,17 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bahia_gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF6B00"/>
+            <stop offset="100%" stop-color="#FF0055"/>
+        </linearGradient>
+        <filter id="shadow" x="-50" y="-50" width="612" height="612" filterUnits="userSpaceOnUse">
+            <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000" flood-opacity="0.2"/>
+        </filter>
+    </defs>
+
+    <!-- Fundo: Squircle com Gradiente -->
+    <rect x="32" y="32" width="448" height="448" rx="120" fill="url(#bahia_gradient)" filter="url(#shadow)"/>
+    
+    <!-- Ícone: Gamepad Simplificado -->
+    <path fill="white" d="M368 144H144C108.65 144 80 172.65 80 208V304C80 339.35 108.65 368 144 368H368C403.35 368 432 339.35 432 304V208C432 172.65 403.35 144 368 144ZM168 288H144V312C144 316.42 140.42 320 136 320C131.58 320 128 316.42 128 312V288H104C99.58 288 96 284.42 96 280C96 275.58 99.58 272 104 272H128V248C128 243.58 131.58 240 136 240C140.42 240 144 243.58 144 248V272H168C172.42 272 176 275.58 176 280C176 284.42 172.42 288 168 288ZM344 248C335.16 248 328 240.84 328 232C328 223.16 335.16 216 344 216C352.84 216 360 223.16 360 232C360 240.84 352.84 248 344 248ZM312 296C303.16 296 296 288.84 296 280C296 271.16 303.16 264 312 264C320.84 264 328 271.16 328 280C328 288.84 320.84 296 312 296ZM344 344C335.16 344 328 336.84 328 328C328 319.16 335.16 312 344 312C352.84 312 360 319.16 360 328C360 336.84 352.84 344 344 344ZM376 296C367.16 296 360 288.84 360 280C360 271.16 367.16 264 376 264C384.84 264 392 271.16 392 280C392 288.84 384.84 296 376 296Z"/>
+</svg>

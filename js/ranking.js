@@ -492,3 +492,7 @@ if (clearBtn) {
 } else {
     console.debug('[ranking] clearBtn not present');
 }
+
+// small page animations (moved from inline <script> in ranking.html)
+gsap.from("header", { y: -50, opacity: 0, duration: 1, ease: "power4.out" });
+gsap.from(".glass-panel", { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: "power4.out" });

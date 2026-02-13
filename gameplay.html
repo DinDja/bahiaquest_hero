@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="PfrIg0o9cyxTYTQSQoiYfjTSrNA8auUGtEGmNLds74c" />
+    <title>BahiaQuest | Modos de Jogo</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Descubra os modos de jogo do BahiaQuest — Quiz, Arena PvP, Gestor do Território e Geo-Command. Aprenda jogando." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="/gameplay.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gameplay — BahiaQuest" />
+    <meta property="og:description" content="Modos de jogo para treinar conhecimento e tomar decisões estratégicas inspiradas na Bahia." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/gameplay.html" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=2070&auto=format&fit=crop" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">{
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Gameplay — BahiaQuest",
+      "url": "/gameplay.html",
+      "description": "Descrição dos modos de jogo: Quiz, Arena, Gestor, Geo-Command."
+    }</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="images/favicon.ico?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="images/favicon.ico?v=2" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/favicon.ico?v=2">
+    <meta name="theme-color" content="#FF6B00">
+    <link rel="stylesheet" href="css/gameplay.css">
+</head>
+<body class="antialiased selection:bg-orange-500 selection:text-white">
+
+    <!-- FX Layer -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="blob bg-purple-600 w-64 h-64 md:w-[600px] md:h-[600px] top-[-100px] left-[-100px]"></div>
+        <div class="blob bg-orange-600 w-64 h-64 md:w-[500px] md:h-[500px] bottom-0 right-0"></div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 px-4 md:px-8 py-4 md:py-6 flex justify-between items-center backdrop-blur-sm bg-black/20 border-b border-white/5">
+        <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                <i class="fas fa-gamepad text-white text-sm md:text-lg"></i>
+            </div>
+            <div class="text-lg md:text-xl font-black tracking-tight">BAHIA<span class="text-orange-500">QUEST</span></div>
+        </div>
+        <div class="hidden md:flex gap-8 font-bold text-xs md:text-sm tracking-widest uppercase">
+            <a href="index.html" class="hover:text-orange-500 transition-colors">Home</a>
+            <a href="ranking.html" class="hover:text-orange-500 transition-colors">Ranking</a>
+            <a href="metodo.html" class="hover:text-orange-500 transition-colors">Método</a>
+        </div>
+        <a href="index.html" class="group flex items-center gap-2 text-xs md:text-sm font-bold text-slate-400 hover:text-white transition-colors md:hidden">
+            <div class="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                <i class="fas fa-arrow-left text-[10px]"></i>
+            </div>
+        </a>
+    </nav>
+
+    <main class="relative z-10 pt-28 md:pt-36 pb-20 px-4 max-w-7xl mx-auto min-h-screen">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 md:mb-24 relative">
+            <div class="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full border border-white/20 mb-6 shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-default">
+                <span class="text-blue-400 font-bold text-xs md:text-sm uppercase tracking-wider">🎮 Choose Your Game</span>
+            </div>
+            <h1 class="text-4xl md:text-7xl font-black mb-4 tracking-tighter leading-tight">MODOS DE <span class="text-gradient">BATALHA</span></h1>
+            <p class="text-slate-400 text-sm md:text-xl max-w-2xl mx-auto px-4">Domine o território baiano através de quatro mecânicas distintas. Escolha sua estratégia.</p>
+        </header>
+
+        <!-- Game Modes Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-24 perspective-container">
+            
+            <!-- Mode 1: Quiz -->
+            <div class="game-card glass-panel rounded-3xl p-6 md:p-10 border border-white/10 group cursor-pointer h-full flex flex-col justify-between" data-tilt>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=2070&auto=format&fit=crop');"></div>
+                
+                <div class="relative z-10 game-card-content">
+                    <div class="flex justify-between items-start">
+                        <div class="mode-icon text-purple-400 border-purple-500/30">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="bg-purple-500/20 text-purple-300 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full border border-purple-500/30">SINGLEPLAYER</span>
+                    </div>
+                    
+                    <h2 class="text-2xl md:text-4xl font-black mb-2 glitch-hover">QUIZ COMBAT</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        Enfrente ondas de perguntas da BNCC. Cada resposta correta é um ataque crítico no "Boss" do vestibular.
+                    </p>
+
+                    <div class="space-y-4 bg-black/40 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Dificuldade</span> <span>Adaptativa</span></div>
+                            <div class="stat-bar-container"><div class="stat-bar-fill bg-purple-500 w-[80%]"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Recompensa XP</span> <span>Alta</span></div>
+                            <div class="stat-bar-container"><div class="stat-bar-fill bg-yellow-400 w-[90%]"></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 mt-6 md:mt-8 pt-6 border-t border-white/10 flex justify-between items-center game-card-content">
+                    <span class="text-xs text-slate-400 font-mono">7 DISCIPLINAS</span>
+                    <i class="fas fa-arrow-right text-purple-400 transform group-hover:translate-x-2 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Mode 2: Gestor -->
+            <div class="game-card glass-panel rounded-3xl p-6 md:p-10 border border-white/10 group cursor-pointer h-full flex flex-col justify-between" data-tilt>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');"></div>
+                
+                <div class="relative z-10 game-card-content">
+                    <div class="flex justify-between items-start">
+                        <div class="mode-icon text-green-400 border-green-500/30">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <span class="bg-green-500/20 text-green-300 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full border border-green-500/30">ESTRATÉGIA</span>
+                    </div>
+                    
+                    <h2 class="text-2xl md:text-4xl font-black mb-2 glitch-hover">GESTOR DO TERRITÓRIO</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        Assuma a cadeira de Governador. Balance o orçamento estadual enquanto resolve crises de saúde, educação e segurança.
+                    </p>
+
+                    <div class="space-y-4 bg-black/40 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Complexidade</span> <span>Hardcore</span></div>
+                            <div class="stat-bar-container"><div class="stat-bar-fill bg-red-500 w-[95%]"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Impacto Social</span> <span>Crítico</span></div>
+                            <div class="stat-bar-container"><div class="stat-bar-fill bg-blue-400 w-[70%]"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-6 md:mt-8 pt-6 border-t border-white/10 flex justify-between items-center game-card-content">
+                    <span class="text-xs text-slate-400 font-mono">SIMULAÇÃO REAL</span>
+                    <i class="fas fa-arrow-right text-green-400 transform group-hover:translate-x-2 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Mode 3: Arena -->
+            <div class="game-card glass-panel rounded-3xl p-6 md:p-10 border border-white/10 group cursor-pointer h-full flex flex-col justify-between" data-tilt>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop');"></div>
+                
+                <div class="relative z-10 game-card-content">
+                    <div class="flex justify-between items-start">
+                        <div class="mode-icon text-red-500 border-red-500/30">
+                            <i class="fas fa-fist-raised"></i>
+                        </div>
+                        <span class="bg-red-500/20 text-red-300 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full border border-red-500/30">PVP ONLINE</span>
+                    </div>
+                    
+                    <h2 class="text-2xl md:text-4xl font-black mb-2 glitch-hover">ARENA DE DUELOS</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        1v1 em Tempo Real. Velocidade + Precisão. Aposte seus pontos de ranking e roube o lugar dos seus amigos no pódio.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5 text-center">
+                            <i class="fas fa-bolt text-yellow-400 mb-1 text-xl"></i>
+                            <div class="text-[10px] text-slate-400 uppercase">Speed Run</div>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5 text-center">
+                            <i class="fas fa-trophy text-orange-400 mb-1 text-xl"></i>
+                            <div class="text-[10px] text-slate-400 uppercase">Ranked</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-6 md:mt-8 pt-6 border-t border-white/10 flex justify-between items-center game-card-content">
+                    <span class="text-xs text-slate-400 font-mono">LIVE MATCHMAKING</span>
+                    <i class="fas fa-arrow-right text-red-500 transform group-hover:translate-x-2 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Mode 4: Geo -->
+            <div class="game-card glass-panel rounded-3xl p-6 md:p-10 border border-white/10 group cursor-pointer h-full flex flex-col justify-between" data-tilt>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop');"></div>
+                
+                <div class="relative z-10 game-card-content">
+                    <div class="flex justify-between items-start">
+                        <div class="mode-icon text-blue-400 border-blue-500/30">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <span class="bg-blue-500/20 text-blue-300 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">GPS</span>
+                    </div>
+                    
+                    <h2 class="text-2xl md:text-4xl font-black mb-2 glitch-hover">GEO-COMMAND</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        O mundo é seu tabuleiro. Use o giroscópio para encontrar capitais e pontos históricos da Bahia em um mapa 3D imersivo.
+                    </p>
+
+                    <div class="space-y-4 bg-black/40 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30">
+                                <i class="fas fa-map-pin"></i>
+                            </div>
+                            <div class="text-xs text-slate-300">270+ Cidades Baianas</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 border border-orange-500/30">
+                                <i class="fas fa-monument"></i>
+                            </div>
+                            <div class="text-xs text-slate-300">Pontos Turísticos 3D</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-6 md:mt-8 pt-6 border-t border-white/10 flex justify-between items-center game-card-content">
+                    <span class="text-xs text-slate-400 font-mono">EXPLORAÇÃO</span>
+                    <i class="fas fa-arrow-right text-blue-400 transform group-hover:translate-x-2 transition-transform"></i>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CTA Final -->
+        <div class="text-center pb-10">
+            <p class="text-slate-400 mb-6 text-sm md:text-base">Pronto para começar sua campanha?</p>
+            <button class="magnetic-btn btn-shine bg-white text-black px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)] relative overflow-hidden inline-block w-full md:w-auto">
+                <span class="relative z-10">BAIXAR O JOGO AGORA</span>
+            </button>
+        </div>
+
+    </main>
+
+    <script src="js/gameplay.js" defer></script>
+</body>
+</html>

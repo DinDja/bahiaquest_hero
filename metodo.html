@@ -4,103 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="PfrIg0o9cyxTYTQSQoiYfjTSrNA8auUGtEGmNLds74c" />
     <title>BahiaQuest | Metodologia</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Metodologia BahiaQuest — gamificação baseada em Taxonomia de Bloom, BNCC e DCRB para preparar estudantes baianos para vestibulares." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="/metodo.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Metodologia — BahiaQuest" />
+    <meta property="og:description" content="Taxonomia de Bloom, matriz BNCC e aprendizagem situada — conheça nossa pedagogia gamificada." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="/metodo.html" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">{
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Metodologia — BahiaQuest",
+      "description": "Gamificação pedagógica alinhada à BNCC e ao DCRB.",
+      "url": "/metodo.html"
+    }</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Permanent+Marker&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bahia-orange: #FF6B00;
-            --bahia-blue: #0095FF;
-            --bahia-pink: #FF0055;
-            --bg-dark: #0F172A;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            overflow-x: hidden;
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        .font-marker {
-            font-family: 'Permanent Marker', cursive;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--bahia-orange);
-            border-radius: 4px;
-        }
-
-        .text-gradient {
-            background: linear-gradient(to right, var(--bahia-orange), var(--bahia-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        /* 3D Tilt Utilities */
-        .step-card {
-            transition: transform 0.1s ease-out;
-            transform-style: preserve-3d;
-        }
-
-        .step-content {
-            transform: translateZ(20px);
-        }
-
-        /* Shine Effect for Button */
-        .btn-shine {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-shine::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-shine:hover::after {
-            left: 100%;
-        }
-    </style>
+    <link rel="icon" href="images/favicon.ico?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="images/favicon.ico?v=2" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/favicon.ico?v=2">
+    <meta name="theme-color" content="#FF6B00">
+    <link rel="stylesheet" href="css/metodo.css">
 </head>
 
 <body class="antialiased selection:bg-orange-500 selection:text-white">
@@ -359,106 +297,7 @@
         </footer>
     </main>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 1. Header Parallax
-        gsap.to("#hero-title", {
-            scrollTrigger: {
-                trigger: "header",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            },
-            y: 50,
-            opacity: 0.5
-        });
-
-        // 2. Blob Movement (Parallax)
-        gsap.to("#blob1", {
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 2
-            },
-            y: 300,
-            x: 50
-        });
-
-        gsap.to("#blob2", {
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 2
-            },
-            y: -300,
-            x: -50
-        });
-
-        // 3. Loop Rotation on Scroll (PINNED for 3 scrolls)
-        // We use a timeline to control both the pinning and the animation over that pinned duration
-        ScrollTrigger.create({
-            trigger: "#loop-section",
-            start: "center center",
-            end: "+=3000", // Increased to 3000 for 3 full scrolls duration
-            pin: true,
-            pinSpacing: true, // Explicitly set spacing
-            scrub: 1,
-            anticipatePin: 1,
-            animation: gsap.timeline()
-                .to("#rotating-elements", { rotation: 360 * 3, ease: "none" }) // 3 full rotations
-                .to("#rotating-elements > div", { rotation: -360 * 3, ease: "none" }, 0)
-        });
-
-        // 4. Cards Entrance
-        gsap.utils.toArray(".step-card").forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: { trigger: card, start: "top 90%" },
-                y: 50, opacity: 0, duration: 0.8, delay: i * 0.15, ease: "back.out(1.2)"
-            });
-        });
-
-        // 5. 3D Tilt Logic (Vanilla JS)
-        const tiltCards = document.querySelectorAll('[data-tilt]');
-
-        tiltCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
-                const rotateY = ((x - centerX) / centerX) * 10;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-            });
-        });
-
-        // 6. Magnetic Button Logic
-        const magneticBtns = document.querySelectorAll('.magnetic-btn');
-        magneticBtns.forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
-
-    </script>
+    <script src="js/metodo.js" defer></script>
 </body>
 
 </html>

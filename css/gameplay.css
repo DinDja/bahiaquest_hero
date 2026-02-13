@@ -1,0 +1,50 @@
+:root {
+    --bahia-orange: #FF6B00;
+    --bahia-blue: #0095FF;
+    --bahia-pink: #FF0055;
+    --bg-dark: #0F172A;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: #ffffff;
+    overflow-x: hidden;
+    margin: 0;
+    min-height: 100vh;
+    background-image: radial-gradient(circle at top center, #1e293b 0%, #020617 60%);
+}
+
+.font-marker { font-family: 'Permanent Marker', cursive; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bahia-orange); border-radius: 3px; }
+
+.text-gradient { background: linear-gradient(to right, var(--bahia-orange), var(--bahia-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transform-style: preserve-3d; perspective: 1000px; }
+
+.blob { position: absolute; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; }
+
+/* Game Card Styles & Tilt */
+.game-card { transition: transform 0.1s ease-out; position: relative; overflow: hidden; transform-style: preserve-3d; }
+.game-card-content { transform: translateZ(30px); }
+.card-bg { position: absolute; inset: -20px; background-size: cover; background-position: center; opacity: 0.3; transition: opacity 0.5s ease; mix-blend-mode: overlay; transform: translateZ(0); }
+.game-card:hover .card-bg { opacity: 0.5; }
+
+.mode-icon { width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; border-radius: 1rem; font-size: 1.5rem; margin-bottom: 1rem; position: relative; z-index: 10; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0,0,0,0.3); }
+@media(min-width: 768px) { .mode-icon { width: 4rem; height: 4rem; font-size: 1.8rem; margin-bottom: 1.5rem; } }
+
+/* Glitch text effect on hover */
+.glitch-hover:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: var(--bahia-orange); }
+@keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+
+/* Stats Bar */
+.stat-bar-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; margin-top: 0.5rem; }
+.stat-bar-fill { height: 100%; border-radius: 999px; width: 0%; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Shine Effect for Button */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: 0.5s; }
+.btn-shine:hover::after { left: 100%; }
