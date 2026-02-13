@@ -24,57 +24,117 @@
             overflow-x: hidden;
             margin: 0;
             min-height: 100vh;
+            background-image: radial-gradient(circle at top center, #1e293b 0%, #020617 60%);
         }
 
-        .font-marker {
-            font-family: 'Permanent Marker', cursive;
-        }
+        .font-marker { font-family: 'Permanent Marker', cursive; }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: var(--bahia-orange); border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
         .text-gradient {
             background: linear-gradient(to right, var(--bahia-orange), var(--bahia-pink));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        .blob { position: absolute; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; }
+
+        /* Glass Panel Base */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; }
-        
-        .rank-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Podium Cards */
+        .podium-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
-        .rank-card:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateX(8px) scale(1.01);
-            border-color: rgba(255,255,255,0.2);
+        .podium-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        }
+        .podium-card:hover { transform: translateY(-10px); }
+
+        /* Specific Rank Styles */
+        .rank-1 {
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            background: linear-gradient(180deg, rgba(250, 204, 21, 0.1) 0%, rgba(250, 204, 21, 0.02) 100%);
+            box-shadow: 0 0 40px rgba(250, 204, 21, 0.1);
+            z-index: 10;
+        }
+        .rank-2 {
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: linear-gradient(180deg, rgba(148, 163, 184, 0.1) 0%, rgba(148, 163, 184, 0.02) 100%);
+        }
+        .rank-3 {
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            background: linear-gradient(180deg, rgba(251, 146, 60, 0.1) 0%, rgba(251, 146, 60, 0.02) 100%);
         }
 
+        /* Avatar Glows */
+        .avatar-glow-1 { box-shadow: 0 0 20px rgba(250, 204, 21, 0.4); border: 2px solid var(--gold); }
+        .avatar-glow-2 { box-shadow: 0 0 15px rgba(148, 163, 184, 0.3); border: 2px solid var(--silver); }
+        .avatar-glow-3 { box-shadow: 0 0 15px rgba(251, 146, 60, 0.3); border: 2px solid var(--bronze); }
+
+        /* List Items */
+        .list-item {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .list-item:hover {
+            background: rgba(255,255,255,0.05);
+            transform: scale(1.01);
+            border-radius: 8px;
+            border-bottom-color: transparent;
+        }
+
+        .crown-icon {
+            filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.8));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Card expansion */
+        .rank-card { transition: all 0.28s cubic-bezier(.2,.9,.2,1); position: relative; }
+        .rank-card .expanded-info { opacity: 0; max-height: 0; transform: translateY(-4px); transition: all .22s ease; overflow: hidden; }
+        .rank-card.expanded { transform: translateX(6px) scale(1.01); box-shadow: 0 10px 30px rgba(2,6,23,0.6); }
+        .rank-card.expanded .expanded-info { opacity: 1; max-height: 200px; transform: translateY(0); margin-top: .5rem; }
+        .highlight-me { outline: 3px solid rgba(96,165,250,0.25); border-radius: .75rem; box-shadow: 0 8px 30px rgba(59,130,246,0.12); }
+        .highlight-me::after { content: 'Você'; font-size: .6rem; color: #60a5fa; font-weight:800; position: absolute; top: 6px; left: 84px; background: rgba(2,6,23,0.6); padding: 2px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.03); }
+
+        /* Avatar Standardization */
         .player-avatar {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 3rem; /* Mobile default */
+            height: 3rem;
             border-radius: 9999px;
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.1);
         }
+        @media (min-width: 768px) {
+            .player-avatar { width: 3.5rem; height: 3.5rem; }
+        }
 
+        /* Rank Badge Styles */
         .rank-badge {
             font-family: 'Permanent Marker', cursive;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
+        /* Medal styles - RESPONSIVE FIX */
         .medal {
             position: relative;
             display: inline-flex; align-items: center; justify-content: center;
-            width: 2.6rem; height: 2.6rem; border-radius: 9999px; font-size: 1rem;
-            margin-left: -0.35rem; margin-right: 0.35rem; color: #111827;
+            width: 2rem; height: 2rem; /* Mobile otimizado */
+            border-radius: 9999px; font-size: 1rem;
+            margin-left: -0.25rem; margin-right: 0.25rem; color: #111827;
             border: 1px solid rgba(0,0,0,0.18);
             background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.7));
             box-shadow: 0 6px 22px rgba(2,6,23,0.6), inset 0 -6px 18px rgba(255,255,255,0.2);
@@ -82,9 +142,11 @@
             cursor: pointer;
             transition: transform .22s cubic-bezier(.2,.9,.25,1), box-shadow .22s ease;
             overflow: visible;
+            flex-shrink: 0; /* Impede deformação */
         }
-        .medal i { color: transparent; width: 1.3rem; height: 1.3rem; display:flex; align-items:center; justify-content:center; background: transparent; border-radius:50%; position:relative; z-index:2; }
+        .medal i { color: transparent; width: 1rem; height: 1rem; display:flex; align-items:center; justify-content:center; background: transparent; border-radius:50%; position:relative; z-index:2; }
 
+        /* metallic finishes */
         .medal-gold { background: radial-gradient(circle at 30% 30%, #fff9d6 0%, #fef08a 25%, #facc15 60%, #b27a00 100%); border: 1px solid rgba(122,74,0,0.25); box-shadow: 0 8px 30px rgba(250,204,21,0.12), inset 0 -6px 12px rgba(255,255,255,0.25); }
         .medal-silver { background: radial-gradient(circle at 30% 30%, #f8fafc 0%, #e6eef6 30%, #94a3b8 70%, #6b7280 100%); border: 1px solid rgba(75,85,99,0.18); box-shadow: 0 8px 24px rgba(148,163,184,0.08), inset 0 -6px 10px rgba(255,255,255,0.18); }
         .medal-bronze { background: radial-gradient(circle at 30% 30%, #fff3ea 0%, #ffd9c3 30%, #fb923c 70%, #8a3f1a 100%); border: 1px solid rgba(139,68,18,0.16); box-shadow: 0 8px 24px rgba(251,146,60,0.08), inset 0 -6px 10px rgba(255,255,255,0.14); }
@@ -94,7 +156,7 @@
 
         .medal:hover { transform: translateY(-6px) scale(1.07); box-shadow: 0 18px 40px rgba(2,6,23,0.6); }
 
-        .medal.solo { width: 3.1rem; height: 3.1rem; }
+        .medal.solo { width: 2.5rem; height: 2.5rem; }
         .medal.solo::after { width: 34px; height: 12px; bottom: -8px; }
 
         @keyframes medal-pop { 0% { transform: scale(.85) translateY(6px); opacity: .0 } 60% { transform: scale(1.06) translateY(-4px); opacity: 1 } 100% { transform: scale(1) translateY(0) } }
@@ -104,37 +166,46 @@
         .medal svg { width: 100%; height: 100%; display: block; }
         .medal-emoji { margin-left: -0.25rem; font-size: .95rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35)); opacity: 0.95; }
 
-        @media (max-width:720px) { .medal { width:2.2rem; height:2.2rem } .medal.solo { width:2.6rem; height:2.6rem } }
+        @media (min-width: 768px) { 
+            .medal { width: 2.8rem; height: 2.8rem; } 
+            .medal i { width: 1.4rem; height: 1.4rem; }
+            .medal.solo { width: 3.5rem; height: 3.5rem; } 
+        }
 
-        .rank-card { transition: all 0.28s cubic-bezier(.2,.9,.2,1); position: relative; }
-        .rank-card .expanded-info { opacity: 0; max-height: 0; transform: translateY(-4px); transition: all .22s ease; overflow: hidden; }
-        .rank-card.expanded { transform: translateX(6px) scale(1.01); box-shadow: 0 10px 30px rgba(2,6,23,0.6); }
-        .rank-card.expanded .expanded-info { opacity: 1; max-height: 200px; transform: translateY(0); margin-top: .5rem; }
-        .highlight-me { outline: 3px solid rgba(96,165,250,0.25); border-radius: .75rem; box-shadow: 0 8px 30px rgba(59,130,246,0.12); }
-        .highlight-me::after { content: 'Você'; font-size: .6rem; color: #60a5fa; font-weight:800; position: absolute; top: 6px; left: 84px; background: rgba(2,6,23,0.6); padding: 2px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.03); }
+        /* Podium & stats Mobile First */
+        .podium-wrap { 
+            margin-top: 1.5rem; 
+            display: grid; 
+            grid-template-columns: 1fr; /* Mobile default */
+            gap: 1.5rem; 
+            align-items: start; 
+        }
+        @media (min-width: 768px) {
+            .podium-wrap { grid-template-columns: 1fr 1fr; gap: 1rem; }
+        }
 
-        .podium-wrap { margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
         .podium { background: linear-gradient(180deg,#0b1220 0%, #071028 100%); padding: 1rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.04); box-shadow: inset 0 -8px 30px rgba(0,0,0,0.35); }
         .podium-stand { display:flex; gap:.5rem; justify-content:center; align-items:end; height:110px; }
-        .stand { width:72px; border-radius: .5rem  .5rem 0 0; display:flex; align-items:end; justify-content:center; color:#111827; font-weight:800; }
+        .stand { width:64px; border-radius: .5rem .5rem 0 0; display:flex; align-items:end; justify-content:center; color:#111827; font-weight:800; }
+        @media (min-width: 768px) { .stand { width: 72px; } }
+
         .stand.s-1 { height:96px; background: linear-gradient(180deg,#FFD54A,#FACC15); box-shadow: 0 8px 30px rgba(250,204,21,.15); transform: translateY(-8px); }
         .stand.s-2 { height:72px; background: linear-gradient(180deg,#cbd5e1,#94A3B8); }
         .stand.s-3 { height:56px; background: linear-gradient(180deg,#ffd9c3,#fb923c); }
         .podium-info { padding: .5rem 0; text-align:center; color: #e6edf3; }
+        
         .stat-grid { display:flex; gap: .75rem; margin-top: .75rem; }
         .stat-card { flex:1; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); padding:.6rem; border-radius:.75rem; text-align:center; }
         .stat-card .num { font-weight:800; font-size:1.1rem; color:#fff; }
         .stat-card .lbl { font-size:.65rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.09em; }
-
-        @media (max-width:720px) { .podium-wrap { grid-template-columns: 1fr; } .stand { width:64px; } }
 
     </style>
 </head>
 <body class="antialiased selection:bg-orange-500 selection:text-white">
 
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <div class="blob bg-orange-600 w-96 h-96 top-0 left-0 animate-pulse"></div>
-        <div class="blob bg-blue-600 w-96 h-96 bottom-0 right-0 animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="blob bg-orange-600 w-64 h-64 md:w-96 md:h-96 top-0 left-0 animate-pulse"></div>
+        <div class="blob bg-blue-600 w-64 h-64 md:w-96 md:h-96 bottom-0 right-0 animate-pulse" style="animation-delay: 1s;"></div>
     </div>
 
     <nav class="fixed w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
@@ -142,28 +213,28 @@
             <i class="fas fa-gamepad text-orange-500 text-xl md:text-2xl"></i>
             <div class="text-xl md:text-2xl font-black tracking-tighter">BAHIA<span class="text-orange-500">QUEST</span></div>
         </div>
-        <div class="flex gap-8 font-bold text-sm tracking-widest uppercase items-center">
-            <a href="index.html" class="hover:text-orange-500 transition-colors flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i> Voltar
+        <div class="flex gap-4 md:gap-8 font-bold text-sm tracking-widest uppercase items-center">
+            <a href="index.html" class="hover:text-orange-500 transition-colors flex items-center gap-2 group">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden md:inline">Voltar</span>
             </a>
         </div>
     </nav>
 
-    <main class="relative z-10 pt-32 pb-20 px-4 max-w-4xl mx-auto min-h-screen flex flex-col">
-        <header class="text-center mb-12">
+    <main class="relative z-10 pt-28 md:pt-32 pb-20 px-4 max-w-4xl mx-auto min-h-screen flex flex-col">
+        <header class="text-center mb-8 md:mb-12">
             <div class="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full border border-white/20 mb-6 shadow-lg">
-                <span class="text-orange-400 font-bold text-sm uppercase tracking-wider">🏆 Hall da Fama</span>
+                <span class="text-orange-400 font-bold text-xs md:text-sm uppercase tracking-wider">🏆 Hall da Fama</span>
             </div>
-            <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-tight">RANKING <span class="text-gradient">GLOBAL</span></h1>
-            <p class="text-slate-400 text-xl max-w-2xl mx-auto">Os maiores cangaceiros do conhecimento e governadores do sertão.</p>
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-black mb-4 tracking-tight">RANKING <br class="md:hidden"><span class="text-gradient">GLOBAL</span></h1>
+            <p class="text-slate-400 text-base md:text-xl max-w-2xl mx-auto px-4">Os maiores cangaceiros do conhecimento e governadores do sertão.</p>
         </header>
 
         <section class="glass-panel p-1 rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
-            <div class="bg-black/40 p-4 md:p-6 rounded-t-[1.3rem] flex justify-between items-center border-b border-white/5">
+            <div class="bg-black/40 p-4 md:p-6 rounded-t-[1.3rem] flex flex-col md:flex-row justify-between items-center border-b border-white/5 gap-4">
                 <h2 class="font-bold text-lg flex items-center gap-2 uppercase tracking-wider text-slate-300">
                     <i class="fas fa-list-ol text-orange-500"></i> Classificação
                 </h2>
-                <div class="flex items-center gap-4">
+                <div class="flex flex-wrap justify-center gap-3 md:gap-4 w-full md:w-auto">
                     <div class="text-[10px] font-bold bg-green-500/20 text-green-400 px-3 py-1 rounded-full flex items-center gap-2 border border-green-500/30">
                         <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                         TEMPO REAL
@@ -175,12 +246,12 @@
                         <button id="mode-weekly" class="px-3 py-1 text-xs font-bold rounded-full text-slate-400 hover:text-white/100">SEMANAL</button>
                     </div>
 
-                    <div id="weekly-reset" class="text-xs text-slate-400 hidden">Último reset: —</div>
+                    <div id="weekly-reset" class="text-xs text-slate-400 hidden w-full text-center md:w-auto">Último reset: —</div>
                 </div>
             </div>
 
             <!-- Lista de Classificação (Dinâmica) -->
-            <div id="leaderboard" class="p-4 md:p-6 space-y-3 min-h-[300px]">
+            <div id="leaderboard" class="p-3 md:p-6 space-y-3 min-h-[300px]">
                 <div class="text-center text-slate-500 py-10 animate-pulse">
                     Carregando cangaceiros...
                 </div>
@@ -195,8 +266,8 @@
         </section>
 
         <!-- Pódio e Estatísticas (Dinâmico) -->
-        <div id="podium-stats" class="p-4 md:p-6 mt-6 rounded-2xl">
-            <div class="podium-wrap glass-panel p-4">
+        <div id="podium-stats" class="p-0 md:p-6 mt-6 rounded-2xl">
+            <div class="podium-wrap glass-panel p-4 md:p-6">
                 <div class="podium" id="podium">
                     <div class="podium-stand" id="podium-stand">
                         <!-- stands (preenchidos via JS) -->
@@ -234,6 +305,7 @@
 
     <script type="module" src="js/ranking.js"></script>
     <script>
+        // Animação de entrada dos cards (Visual Tapa)
         gsap.from("header", {
             y: -50,
             opacity: 0,

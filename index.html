@@ -236,14 +236,47 @@
             <i class="fas fa-gamepad text-orange-500 text-xl md:text-2xl"></i>
             <div class="text-xl md:text-2xl font-black tracking-tighter">BAHIA<span class="text-orange-500">QUEST</span></div>
         </div>
+
+        <!-- Desktop links -->
         <div class="hidden md:flex gap-8 font-bold text-sm tracking-widest uppercase">
             <a href="#modes" class="hover:text-orange-500 transition-colors">Gameplay</a>
             <a href="ranking.html" class="hover:text-orange-500 transition-colors">Ranking</a>
             <a href="metodo.html" class="hover:text-orange-500 transition-colors">Método</a>
         </div>
+
+        <!-- Mobile: hamburger -->
+        <div class="md:hidden flex items-center gap-3">
+            <button id="mobileMenuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu" class="p-2 rounded-md bg-white/6 hover:bg-white/10 text-slate-200" style="z-index:1200; pointer-events:auto;">
+                <span class="sr-only">Abrir menu</span>
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
         <button class="bg-white text-black px-4 md:px-6 py-2 rounded-full font-bold text-sm md:text-base hover:bg-orange-500 hover:text-white transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
             <i class="fas fa-download"></i> Baixar App
         </button>
+
+    </nav>
+
+    <!-- Mobile drawer + backdrop (moved outside nav to avoid blend) -->
+    <div id="mobileMenuBackdrop" style="z-index:1100; background-color: #020617 !important; mix-blend-mode: normal; isolation:isolate; backdrop-filter: none;" class="fixed inset-0 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+
+
+    <nav id="mobileMenu" style="z-index:1110; background-color: #071028; mix-blend-mode: normal; isolation:isolate; backdrop-filter: none; opacity: 1;" class="fixed top-0 right-0 h-full w-80 max-w-full translate-x-full md:hidden shadow-2xl transition-transform duration-300 ease-in-out border-l border-white/6">
+        <div class="p-4 flex items-center justify-between border-b border-white/6">
+            <div class="font-black tracking-wider">Menu</div>
+            <button id="mobileMenuClose" class="p-2 rounded-md bg-white/6 hover:bg-white/10 text-slate-200">
+                <span class="sr-only">Fechar menu</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6 flex flex-col gap-4">
+            <a href="#modes" class="block px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-md hover:bg-white/5">Gameplay</a>
+            <a href="ranking.html" class="block px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-md hover:bg-white/5">Ranking</a>
+            <a href="metodo.html" class="block px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-md hover:bg-white/5">Método</a>
+        </div>
+        <div class="mt-auto p-4 border-t border-white/6 text-sm text-slate-400">&copy; 2026 BahiaQuest</div>
     </nav>
 
     <!-- Hero Section -->
@@ -298,7 +331,7 @@
         <div class="h-scroll-container" id="modes-container">
             
             <!-- PANEL 1: INTRO & WELCOME (incorpora O QUE VOCÊ VAI ENCONTRAR) -->
-            <div class="h-panel bg-[#0F172A]">
+            <div class="h-panel bg-[#0F172A] mobile-icon-trigger">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-6xl w-full items-center">
                     <div class="order-2 md:order-1 text-center md:text-left">
                         <span class="text-orange-500 font-bold tracking-wider uppercase mb-2 block text-sm md:text-base">⚡ O que você vai encontrar</span>
@@ -663,6 +696,7 @@
         });
 
         // Stacking Cards (Universal)
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const cards = gsap.utils.toArray(".stack-card");
         cards.forEach((card, index) => {
             gsap.from(card, {
@@ -694,7 +728,7 @@
         });
 
         // --- Utility interactions: ripple, tilt, nav shrink, keyboard + swipe navigation, long-press ---
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
 
         // Smooth-scroll for anchor links (enhancement)
         try { document.documentElement.style.scrollBehavior = 'smooth'; } catch(e){}
@@ -717,11 +751,101 @@
         }
         attachRipple();
 
-        // Navbar shrink on scroll
+        // Navbar shrink on scroll + mobile menu toggle
         const navEl = document.querySelector('nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) navEl.classList.add('scrolled'); else navEl.classList.remove('scrolled');
         }, { passive: true });
+
+        // Mobile drawer toggle (backdrop, body scroll lock)
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBackdrop = document.getElementById('mobileMenuBackdrop');
+        const mobileClose = document.getElementById('mobileMenuClose');
+
+        // Fallback: use inline transform so the drawer opens even if Tailwind classes don't toggle
+        if (mobileMenu) {
+            mobileMenu.style.transform = 'translateX(100%)';
+            mobileMenu.style.transition = mobileMenu.style.transition || 'transform 300ms ease-in-out';
+            mobileMenu.style.display = 'block';
+            mobileMenu.style.visibility = 'visible';
+        }
+        if (mobileBackdrop) {
+            mobileBackdrop.style.opacity = '0';
+            mobileBackdrop.style.transition = mobileBackdrop.style.transition || 'opacity 300ms ease-in-out';
+            mobileBackdrop.style.pointerEvents = 'none';
+        }
+
+        function openMobileMenu() {
+            console && console.log && console.log('[menu] openMobileMenu called');
+            // class fallback for Tailwind + inline transform guarantee
+            mobileMenu && mobileMenu.classList.remove('translate-x-full');
+            mobileMenu && mobileMenu.classList.add('translate-x-0');
+
+            // force styles (defensive)
+            if (mobileMenu) {
+                mobileMenu.style.transform = 'translateX(0)';
+                mobileMenu.style.right = '0';
+                mobileMenu.style.display = 'block';
+                mobileMenu.style.visibility = 'visible';
+                mobileMenu.style.opacity = '1';
+            }
+
+            mobileBackdrop && mobileBackdrop.classList.remove('opacity-0','pointer-events-none');
+            mobileBackdrop && mobileBackdrop.classList.add('opacity-100');
+            mobileBackdrop && (mobileBackdrop.style.opacity = '1');
+            mobileBackdrop && (mobileBackdrop.style.pointerEvents = 'auto');
+
+            mobileBtn && mobileBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileMenu() {
+            console && console.log && console.log('[menu] closeMobileMenu called');
+            mobileMenu && mobileMenu.classList.remove('translate-x-0');
+            mobileMenu && mobileMenu.classList.add('translate-x-full');
+
+            if (mobileMenu) {
+                mobileMenu.style.transform = 'translateX(100%)';
+                mobileMenu.style.opacity = '0';
+            }
+
+            mobileBackdrop && mobileBackdrop.classList.add('opacity-0');
+            mobileBackdrop && mobileBackdrop.classList.add('pointer-events-none');
+            mobileBackdrop && (mobileBackdrop.style.opacity = '0');
+            mobileBackdrop && (mobileBackdrop.style.pointerEvents = 'none');
+
+            mobileBtn && mobileBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        // stronger click handler: log + force open (defensive)
+        mobileBtn && mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            console && console.log && console.log('[menu] mobileMenuBtn clicked');
+            // defensive immediate show in case class toggles fail
+            if (mobileMenu) {
+                mobileMenu.style.transform = 'translateX(0)';
+                mobileMenu.style.right = '0';
+                mobileMenu.style.display = 'block';
+                mobileMenu.style.visibility = 'visible';
+            }
+            if (mobileBackdrop) { mobileBackdrop.style.opacity = '1'; mobileBackdrop.style.pointerEvents = 'auto'; }
+            openMobileMenu();
+        });
+
+        mobileBackdrop && mobileBackdrop.addEventListener('click', closeMobileMenu);
+        mobileClose && mobileClose.addEventListener('click', closeMobileMenu);
+
+        // Close with Escape
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeMobileMenu(); });
+
+        // Close when a menu link is selected
+        document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', closeMobileMenu));
+
+        const _openMobileMenu = openMobileMenu;
+        const _closeMobileMenu = closeMobileMenu;
+        openMobileMenu = function() { _openMobileMenu(); };
+        closeMobileMenu = function() { _closeMobileMenu(); };
 
         // Tilt effect (pointer-based). Uses GSAP for smooth reset.
         function addTiltEffect(el) {
