@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BahiaQuest | Metodologia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bahia-orange: #FF6B00;
+            --bahia-blue: #0095FF;
+            --bahia-pink: #FF0055;
+            --bg-dark: #0F172A;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .font-marker {
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: var(--bahia-orange); border-radius: 4px; }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--bahia-orange), var(--bahia-pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; }
+        
+        /* 3D Tilt Utilities */
+        .step-card {
+            transition: transform 0.1s ease-out; /* Smooth reset, snappy follow */
+            transform-style: preserve-3d;
+        }
+        
+        .step-content {
+            transform: translateZ(20px); /* Pop out effect */
+        }
+
+        /* Shine Effect for Button */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        /* Orbit Animation Base */
+        .orbit-container {
+            /* Animation controlled by GSAP on scroll now */
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-orange-500 selection:text-white">
+
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="blob bg-purple-600 w-96 h-96 top-20 right-0" id="blob1"></div>
+        <div class="blob bg-orange-600 w-96 h-96 bottom-0 left-0" id="blob2"></div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-gamepad text-orange-500 text-xl md:text-2xl"></i>
+            <div class="text-xl md:text-2xl font-black tracking-tighter">BAHIA<span class="text-orange-500">QUEST</span></div>
+        </div>
+        <div class="flex gap-8 font-bold text-sm tracking-widest uppercase items-center">
+            <a href="index.html" class="hover:text-orange-500 transition-colors flex items-center gap-2 group">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Voltar
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container (Removed Flex to fix Pinning issues) -->
+    <main class="relative z-10 pt-32 pb-20 px-4 max-w-7xl mx-auto min-h-screen block">
+        
+        <!-- Header -->
+        <header class="text-center mb-20 relative">
+            <div class="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full border border-white/20 mb-6 shadow-lg hover:scale-105 transition-transform cursor-default">
+                <span class="text-blue-400 font-bold text-sm uppercase tracking-wider">🧠 Ciência Cognitiva</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight" id="hero-title">PEDAGOGIA <span class="text-gradient">INVISÍVEL</span></h1>
+            <p class="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed" id="hero-desc">
+                Você joga, o cérebro aprende. Utilizamos mecânicas avançadas de gamificação para esconder um currículo rigoroso de vestibular.
+            </p>
+        </header>
+
+        <!-- Section 1: The 4 Pillars (Updated Grid with Tilt) -->
+        <section class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-32 perspective-container">
+            
+            <!-- Pillar 1 -->
+            <div class="step-card glass-panel p-6 rounded-3xl border border-white/10 relative overflow-hidden group cursor-pointer" data-tilt>
+                <div class="absolute top-0 right-0 p-24 bg-blue-500 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div class="step-content">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl mb-6 border border-blue-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3 text-white group-hover:text-blue-400 transition-colors">Taxonomia de Bloom</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed group-hover:text-slate-200 transition-colors">
+                        A dificuldade escala cognitivamente. Do <strong>Lembrar</strong> ao <strong>Criar</strong>, cada nível do jogo exige uma operação mental mais complexa.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="step-card glass-panel p-6 rounded-3xl border border-white/10 relative overflow-hidden group cursor-pointer" data-tilt>
+                <div class="absolute top-0 right-0 p-24 bg-green-500 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div class="step-content">
+                    <div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-400 text-2xl mb-6 border border-green-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3 text-white group-hover:text-green-400 transition-colors">Matriz BNCC</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed group-hover:text-slate-200 transition-colors">
+                        Alinhamento nacional. Cada missão é mapeada para uma competência obrigatória da Base Nacional Comum Curricular.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 3: DCRB -->
+            <div class="step-card glass-panel p-6 rounded-3xl border border-white/10 relative overflow-hidden group cursor-pointer" data-tilt>
+                <div class="absolute top-0 right-0 p-24 bg-pink-500 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div class="step-content">
+                    <div class="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-400 text-2xl mb-6 border border-pink-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-book-atlas"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3 text-white group-hover:text-pink-400 transition-colors">DCRB na Veia</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed group-hover:text-slate-200 transition-colors">
+                        Seguimos o <strong>Documento Curricular Referencial da Bahia</strong>. Valorizamos a identidade, a cultura e a diversidade territorial do estado.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="step-card glass-panel p-6 rounded-3xl border border-white/10 relative overflow-hidden group cursor-pointer" data-tilt>
+                <div class="absolute top-0 right-0 p-24 bg-orange-500 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div class="step-content">
+                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-400 text-2xl mb-6 border border-orange-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3 text-white group-hover:text-orange-400 transition-colors">Contexto Local</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed group-hover:text-slate-200 transition-colors">
+                        Aprendizado situado. Ensinamos física no Elevador Lacerda e biologia na Caatinga. O cérebro fixa o que é familiar.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Gamification Loop (PINNED) -->
+        <section class="py-20" id="loop-section">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <span class="text-orange-500 font-bold tracking-wider uppercase mb-2 block">O Ciclo de Dopamina</span>
+                    <h2 class="text-4xl md:text-5xl font-black mb-6">POR QUE <br>FUNCIONA?</h2>
+                    <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                        Substituímos a ansiedade da prova pelo prazer da recompensa imediata. O aluno entra em estado de "Flow", onde o desafio e a habilidade estão em equilíbrio perfeito.
+                    </p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4 group hover:translate-x-2 transition-transform cursor-default">
+                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-black font-bold text-xs mt-1 group-hover:scale-125 transition-transform">1</div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg group-hover:text-green-400 transition-colors">Ação Clara</h4>
+                                <p class="text-slate-400 text-sm">O objetivo da missão é explícito (ex: "Capture 3 Bandeiras no Pelourinho").</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 group hover:translate-x-2 transition-transform cursor-default">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-black font-bold text-xs mt-1 group-hover:scale-125 transition-transform">2</div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg group-hover:text-blue-400 transition-colors">Feedback Imediato</h4>
+                                <p class="text-slate-400 text-sm">Errou? O app explica o porquê na hora. Acertou? XP e moedas caem na conta.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 group hover:translate-x-2 transition-transform cursor-default">
+                            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-black font-bold text-xs mt-1 group-hover:scale-125 transition-transform">3</div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg group-hover:text-purple-400 transition-colors">Progresso Visível</h4>
+                                <p class="text-slate-400 text-sm">Barras de nível, medalhas e ranking mostram que você está evoluindo.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="md:w-1/2 relative">
+                    <!-- Visual Loop Representation -->
+                    <div class="relative w-full aspect-square max-w-md mx-auto orbit-container">
+                        <div class="absolute inset-0 border-2 border-dashed border-white/10 rounded-full" id="orbit-ring"></div>
+                        
+                        <!-- Center -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center p-8 bg-black/50 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl z-10 w-48 h-48 flex flex-col items-center justify-center relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <i class="fas fa-infinity text-4xl text-white mb-2 relative z-10 group-hover:rotate-180 transition-transform duration-700"></i>
+                                <span class="font-black text-white relative z-10">CICLO DE<br>APRENDIZADO</span>
+                            </div>
+                        </div>
+
+                        <!-- Rotating Wrapper -->
+                        <div class="absolute inset-0 w-full h-full" id="rotating-elements">
+                            <!-- Orbiting Items -->
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 bg-slate-800 p-3 rounded-xl border border-white/10 shadow-lg flex items-center gap-2 w-32 hover:scale-110 transition-transform cursor-pointer hover:border-blue-500">
+                                <i class="fas fa-book-open text-blue-400"></i> <span class="text-xs font-bold">Estudo</span>
+                            </div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-6 bg-slate-800 p-3 rounded-xl border border-white/10 shadow-lg flex items-center gap-2 w-32 hover:scale-110 transition-transform cursor-pointer hover:border-pink-500">
+                                <i class="fas fa-gem text-pink-400"></i> <span class="text-xs font-bold">Recompensa</span>
+                            </div>
+                            <div class="absolute left-0 top-1/2 -translate-x-6 -translate-y-1/2 bg-slate-800 p-3 rounded-xl border border-white/10 shadow-lg flex items-center gap-2 w-32 hover:scale-110 transition-transform cursor-pointer hover:border-orange-500">
+                                <i class="fas fa-gamepad text-orange-400"></i> <span class="text-xs font-bold">Desafio</span>
+                            </div>
+                            <div class="absolute right-0 top-1/2 translate-x-6 -translate-y-1/2 bg-slate-800 p-3 rounded-xl border border-white/10 shadow-lg flex items-center gap-2 w-32 hover:scale-110 transition-transform cursor-pointer hover:border-green-500">
+                                <i class="fas fa-chart-line text-green-400"></i> <span class="text-xs font-bold">Evolução</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="glass-panel p-12 mt-32 rounded-[3rem] text-center border border-white/10 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-pink-600/20 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-5xl font-black mb-6">Pronto para subir de nível?</h2>
+                <p class="text-slate-300 mb-8 max-w-xl mx-auto">Junte-se a milhares de estudantes baianos que transformaram o tédio em conquista.</p>
+                <button class="magnetic-btn btn-shine bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-xl relative overflow-hidden inline-block">
+                    <span class="relative z-10">Baixar o App Agora</span>
+                </button>
+            </div>
+        </section>
+
+        <footer class="mt-20 text-center text-slate-500 text-sm">
+            &copy; 2026 BahiaQuest. 
+        </footer>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Header Parallax
+        gsap.to("#hero-title", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 50,
+            opacity: 0.5
+        });
+
+        // 2. Blob Movement (Parallax)
+        gsap.to("#blob1", {
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 2
+            },
+            y: 300,
+            x: 100
+        });
+
+        gsap.to("#blob2", {
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 2
+            },
+            y: -300,
+            x: -100
+        });
+
+        // 3. Loop Rotation on Scroll (PINNED for 3 scrolls)
+        // We use a timeline to control both the pinning and the animation over that pinned duration
+        ScrollTrigger.create({
+            trigger: "#loop-section",
+            start: "center center", 
+            end: "+=1800", // Increased to 3000 for 3 full scrolls duration
+            pin: true,
+            pinSpacing: true, // Explicitly set spacing
+            scrub: 1,
+            anticipatePin: 1,
+            animation: gsap.timeline()
+                .to("#rotating-elements", { rotation: 360 * 3, ease: "none" }) // 3 full rotations
+                .to("#rotating-elements > div", { rotation: -360 * 3, ease: "none" }, 0)
+        });
+
+        // 4. Cards Entrance
+        gsap.utils.toArray(".step-card").forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: { trigger: card, start: "top 90%" },
+                y: 50, opacity: 0, duration: 0.8, delay: i * 0.15, ease: "back.out(1.2)"
+            });
+        });
+
+        // 5. 3D Tilt Logic (Vanilla JS)
+        const tiltCards = document.querySelectorAll('[data-tilt]');
+
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 6. Magnetic Button Logic
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+    </script>
+</body>
+</html>
