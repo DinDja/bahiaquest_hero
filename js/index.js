@@ -326,19 +326,34 @@ document.addEventListener('keydown', (ev) => {
     }
 });
 
-// Swipe detection to change panels (simple, lightweight)
+// Swipe detection to change panels (desktop only — avoid interfering with mobile vertical scroll)
 let touchStartX = 0;
+let touchStartY = 0;
 let touchStarted = false;
+
 document.addEventListener('touchstart', (e) => {
+    // Guard: only run horizontal-swipe logic on wide screens (desktop/horizontal panels)
+    if (window.innerWidth < 1024) return;
     touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
     touchStarted = true;
 }, {passive: true});
+
 document.addEventListener('touchend', (e) => {
+    if (window.innerWidth < 1024) { touchStarted = false; return; }
     if (!touchStarted) return; touchStarted = false;
-    const diff = (e.changedTouches[0].clientX - touchStartX);
-    if (Math.abs(diff) < 50) return; // ignore small swipes
+
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    const diffX = endX - touchStartX;
+    const diffY = endY - touchStartY;
+
+    // ignore small swipes and vertical scroll gestures
+    if (Math.abs(diffX) < 50) return;
+    if (Math.abs(diffY) > Math.abs(diffX)) return;
+
     const idx = getClosestPanelIndex();
-    const next = diff < 0 ? Math.min(panels.length - 1, idx + 1) : Math.max(0, idx - 1);
+    const next = diffX < 0 ? Math.min(panels.length - 1, idx + 1) : Math.max(0, idx - 1);
     panels[next].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
 }, {passive: true});
 
