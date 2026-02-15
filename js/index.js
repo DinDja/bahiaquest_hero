@@ -262,6 +262,10 @@ document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeMob
 // Close when a menu link is selected
 document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', closeMobileMenu));
 
+// Prevent placeholder anchors (href="#") from jumping to top on mobile
+// Keeps placeholder/social buttons from navigating to “#” and forcing scroll-to-top.
+document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', (e) => e.preventDefault()));
+
 const _openMobileMenu = openMobileMenu;
 const _closeMobileMenu = closeMobileMenu;
 openMobileMenu = function() { _openMobileMenu(); };
@@ -372,4 +376,110 @@ document.querySelectorAll('.phone-mockup, #mobile-app-icon, .profile-stat, .phon
 // Respect reduced motion on GSAP animations as well
 if (prefersReduced) {
     ScrollTrigger.getAll().forEach(st => st.disable());
+}
+
+// Fetch top player from leaderboard (Firestore REST) and show in profile-card
+function formatXP(n) {
+    if (!n) return '0';
+    if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k';
+    return String(n);
+}
+
+function getThemeColor(theme) {
+    const map = { indigo: '#6366F1', blue: '#3B82F6', pink: '#EC4899', orange: '#FB923C', green: '#10B981', yellow: '#F59E0B' };
+    return map[theme] || (typeof theme === 'string' ? theme : '#64748b');
+}
+
+async function fetchTopPlayerAndUpdateProfile() {
+    const card = document.getElementById('profile-card');
+    if (!card) return;
+    const apiKey = 'AIzaSyDngsg2NCTveN71acJ4VGDmvsSSPFuvsAM';
+    const projectId = 'lovebuilder-87763';
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery?key=${apiKey}`;
+    const body = {
+        structuredQuery: {
+            from: [{ collectionId: 'users' }],
+            orderBy: [{ field: { fieldPath: 'xp' }, direction: 'DESCENDING' }],
+            limit: 1
+        }
+    };
+
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) return;
+        const doc = data.find(r => r.document && r.document.fields);
+        if (!doc) return;
+        const f = doc.document.fields || {};
+
+        const name = f.displayName?.stringValue || f.name?.stringValue || '—';
+        const avatar = f.photoURL?.stringValue || f.avatar?.stringValue || '';
+        const xpVal = parseInt(f.xp?.integerValue || f.points?.integerValue || f.score?.integerValue || '0', 10) || 0;
+
+        // additional fields (defaults applied)
+        const profileTheme = f.profileTheme?.stringValue || 'indigo';
+        const streakVal = parseInt(f.streak?.integerValue || f.streak?.doubleValue || '65', 10) || 65;
+        const bio = f.bio?.stringValue || '';
+        const coverColor = f.coverColor?.stringValue || '';
+        const coverImage = f.coverImage?.stringValue || '';
+        const createdRaw = f.createdAt?.timestampValue || f.createdAt?.stringValue || null;
+        const createdAt = createdRaw ? new Date(createdRaw) : null;
+
+        const avatarEl = document.getElementById('profileAvatar');
+        const nameEl = document.getElementById('profileName');
+        const rankEl = document.getElementById('profileRank');
+        const bioEl = document.getElementById('profileBio');
+        const streakEl = document.getElementById('stat-streak');
+        const themeEl = document.getElementById('profileTheme');
+        const coverEl = document.getElementById('profileCover');
+        const createdEl = document.getElementById('profileCreatedAt');
+        const noteEl = document.getElementById('profileNote');
+
+        if (avatarEl) avatarEl.src = avatar || `https://i.pravatar.cc/150?u=${encodeURIComponent(name)}`;
+        if (nameEl) nameEl.textContent = name;
+        if (rankEl) rankEl.textContent = `#1 — ${formatXP(xpVal)} na Bahia`;
+        if (bioEl) bioEl.textContent = bio || '"Evolua seu personagem enquanto evolui sua mente."';
+        if (streakEl) streakEl.textContent = streakVal;
+        if (themeEl) { themeEl.textContent = profileTheme; themeEl.style.background = getThemeColor(profileTheme); themeEl.style.color = '#fff'; }
+
+        if (coverEl) {
+            if (coverImage) {
+                coverEl.style.backgroundImage = `url(${coverImage})`;
+                coverEl.style.backgroundSize = 'cover';
+                coverEl.style.backgroundPosition = 'center';
+            } else if (coverColor) {
+                coverEl.style.background = coverColor;
+            } else {
+                coverEl.style.background = 'linear-gradient(90deg,#0b1220,#111827)';
+            }
+        }
+
+        if (createdEl) {
+            createdEl.textContent = createdAt ? `Membro desde ${createdAt.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}` : '';
+        }
+
+        if (noteEl) noteEl.textContent = 'Este card mostra quem está em 1º lugar no ranking global.';
+
+        // small visual accent on avatar using theme color
+        if (avatarEl) avatarEl.style.boxShadow = `0 0 0 6px ${getThemeColor(profileTheme)}33`;
+
+        // ensure clicking the card links to leaderboard top
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => { window.location.href = 'ranking.html#stand-1'; });
+
+    } catch (err) {
+        console.warn('fetchTopPlayer failed:', err);
+    }
+}
+
+// run on load
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    fetchTopPlayerAndUpdateProfile();
+} else {
+    window.addEventListener('DOMContentLoaded', fetchTopPlayerAndUpdateProfile);
 }

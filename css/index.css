@@ -162,9 +162,59 @@ body {
     opacity: 0.5;
 }
 
+/* Substitua ou adicione estas correções ao seu CSS */
 @media (max-width: 767px) {
-    .reveal-text { font-size: 1.5rem; }
-    h1 { line-height: 1.1; }
+    .h-panel {
+        padding: 2rem 1rem;
+        min-height: auto;
+    }
+
+    #profile-card {
+        padding: 1.5rem 1rem 1rem 1rem !important;
+        max-width: 100%;
+        margin-top: 3rem; /* Espaço para o avatar que sobe */
+    }
+
+    /* Ajuste do Avatar para não cobrir o nome */
+    #profileAvatarWrap {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+    }
+
+    #profileAvatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Grid de stats em 2x2 para melhor leitura no celular */
+    #profile-card .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+
+    .profile-stat {
+        padding: 0.75rem !important;
+        text-align: center;
+    }
+
+    /* Esconder elementos secundários que poluem o mobile */
+    #profileNote, .h-panel > div > p.text-lg {
+        display: none;
+    }
+
+    #profileBio {
+        white-space: normal;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    #profileAvatar { width: 60px; height: 60px; }
+    #profileName { font-size: 0.95rem; }
+    #profileBio { max-width: calc(100% - 76px); }
 }
 
 /* --- New interactive styles (hover, focus, ripple, tilt) --- */

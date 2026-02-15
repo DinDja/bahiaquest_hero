@@ -299,31 +299,50 @@
                     <h2 class="text-3xl md:text-6xl font-black mb-10">SEU PERFIL DE <span class="text-yellow-400">PLAYER</span></h2>
                     
                     <div id="profile-card" class="glass-panel p-8 rounded-3xl max-w-md mx-auto border border-white/20 relative">
-                        <div class="absolute -top-10 left-1/2 -translate-x-1/2">
+                        <!-- cover (coverImage / coverColor) -->
+                        <div id="profileCover" class="absolute inset-x-0 top-0 h-24 rounded-t-3xl overflow-hidden" style="background: linear-gradient(90deg,#0b1220,#111827);"></div>
+
+<div id="profileAvatarWrap" class="absolute -top-10 left-1/2 -translate-x-1/2">
                             <div class="w-20 h-20 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 p-1">
-                                <img src="https://i.pravatar.cc/150?img=11" class="w-full h-full rounded-full object-cover border-4 border-[#1e1b4b]">
+                                <img id="profileAvatar" src="https://i.pravatar.cc/150?img=11" class="w-full h-full rounded-full object-cover border-4 border-[#1e1b4b]" alt="Avatar do jogador no topo">
                             </div>
-                            <div class="absolute bottom-0 right-0 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full border border-black">Lvl 20</div>
+                            <div id="profileLevel" class="absolute bottom-0 right-0 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full border border-black">Lvl 20</div>
                         </div>
                         
                         <div class="mt-10 text-center">
-                            <h3 class="text-xl font-bold">Cangaceiro Lendário</h3>
-                            <p class="text-slate-400 text-sm">Ranking #42 na Bahia</p>
+                            <h3 id="profileName" class="text-xl font-bold">Cangaceiro Lendário</h3>
+                            <div class="flex items-center justify-center gap-3 mt-2">
+                                <div id="profileTheme" class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background:#6366F1;">indigo</div>
+                                <div id="profileCreatedAt" class="text-xs text-slate-400">Membro desde —</div>
+                            </div>
+
+                            <p id="profileRank" class="text-slate-400 text-sm mt-3">Ranking #42 na Bahia</p>
+                            <div id="profileNote" class="text-[11px] text-slate-500 mt-2">Este card mostra quem está em 1º lugar no ranking global.</div>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 mt-6">
+                        <p id="profileBio" class="text-sm text-slate-300 italic mt-4">"Evolua seu personagem enquanto evolui sua mente."</p>
+
+                        <div class="grid grid-cols-4 gap-2 mt-6">
                             <div class="bg-white/5 p-2 rounded-lg profile-stat">
                                 <div class="text-xs text-slate-400">XP Total</div>
-                                <div class="font-bold text-orange-400">15.4k</div>
+                                <div id="stat-xp" class="font-bold text-orange-400">15.4k</div>
                             </div>
                             <div class="bg-white/5 p-2 rounded-lg profile-stat">
                                 <div class="text-xs text-slate-400">Missões</div>
-                                <div class="font-bold text-blue-400">128</div>
+                                <div id="stat-missions" class="font-bold text-blue-400">128</div>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg profile-stat">
+                                <div class="text-xs text-slate-400">Streak</div>
+                                <div id="stat-streak" class="font-bold text-pink-400">65</div>
                             </div>
                             <div class="bg-white/5 p-2 rounded-lg profile-stat">
                                 <div class="text-xs text-slate-400">Win Rate</div>
-                                <div class="font-bold text-green-400">68%</div>
+                                <div id="stat-winrate" class="font-bold text-green-400">68%</div>
                             </div>
+                        </div>
+
+                        <div class="mt-4 md:hidden text-center profile-cta-mobile">
+                            <a href="ranking.html#stand-1" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500 text-black font-bold text-sm">Ver topo do ranking</a>
                         </div>
                     </div>
                     
