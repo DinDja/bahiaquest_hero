@@ -266,6 +266,100 @@ document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('clic
 // Keeps placeholder/social buttons from navigating to “#” and forcing scroll-to-top.
 document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', (e) => e.preventDefault()));
 
+/* Desativar apenas as animações controladas por scroll no mobile
+   (mantém o scroll nativo, sem impedir o usuário de rolar). */
+const disableScrollAnimationsOnMobile = true;
+
+// Guardar referência para uso posterior
+function disableScrollAnimationsIfNeeded() {
+    if (!disableScrollAnimationsOnMobile) return;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    if (isMobile && typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.getAll().forEach(st => {
+            try { st.disable(); } catch(e) { /* fallback */ }
+        });
+        // Opcional: reduzir motion de timelines que não dependem de ScrollTrigger
+        try { gsap.globalTimeline && gsap.globalTimeline.pause(); } catch(e){}
+    }
+}
+
+// mm callbacks: evitar adicionar animações específicas de scroll para telas pequenas
+// já que queremos que o comportamento de scroll seja nativo (sem efeitos).
+mm.add("(max-width: 1023px)", () => {
+    if (disableScrollAnimationsOnMobile && window.innerWidth <= 767) return; // noop em mobile pequeno
+
+    // 1. App Icon Interaction (Panel 1)
+    gsap.to("#mobile-app-icon", {
+        scrollTrigger: {
+            trigger: ".mobile-icon-trigger",
+            start: "top center",
+            end: "bottom top",
+            scrub: 1
+        },
+        rotation: 180,
+        scale: 0.6,
+        y: 50
+    });
+
+    // 2. Phones Entering (Panel 2)
+    gsap.from(".phone-left", {
+        scrollTrigger: {
+            trigger: ".phone-section-trigger",
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1
+        },
+        x: -150,
+        rotation: -30,
+        opacity: 0
+    });
+
+    gsap.from(".phone-right", {
+        scrollTrigger: {
+            trigger: ".phone-section-trigger",
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1
+        },
+        x: 150,
+        rotation: 30,
+        opacity: 0
+    });
+
+    // 3. Radar Zoom (Panel 3)
+    gsap.from("#radar-ui", {
+        scrollTrigger: {
+            trigger: "#radar-ui",
+            start: "top 90%",
+            end: "bottom 80%",
+            scrub: 1
+        },
+        scale: 0.5,
+        opacity: 0.5
+    });
+
+    // 4. Profile Card Tilt (Panel 4)
+    gsap.from("#profile-card", {
+        scrollTrigger: {
+            trigger: "#profile-card",
+            start: "top 90%",
+            end: "top 40%",
+            scrub: 1
+        },
+        rotateX: 45,
+        y: 100,
+        opacity: 0
+    });
+});
+
+// Chamar após inicializar todos os triggers (tenta rodar logo em seguida)
+window.addEventListener('load', () => {
+    // permitir pequenas pausas para que todos os ScrollTriggers sejam registrados
+    setTimeout(() => {
+        disableScrollAnimationsIfNeeded();
+    }, 80);
+});
+
 const _openMobileMenu = openMobileMenu;
 const _closeMobileMenu = closeMobileMenu;
 openMobileMenu = function() { _openMobileMenu(); };
@@ -482,4 +576,42 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
     fetchTopPlayerAndUpdateProfile();
 } else {
     window.addEventListener('DOMContentLoaded', fetchTopPlayerAndUpdateProfile);
+}
+
+/* ---------------- PWA: service worker registration + install prompt ---------------- */
+// Registra o service worker simples em /sw.js
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(() => {
+            console.log('[PWA] Service Worker registrado.');
+        }).catch((err) => {
+            console.warn('[PWA] SW registro falhou:', err);
+        });
+    });
+}
+
+// beforeinstallprompt => guardar o evento para disparar quando o usuário clicar em "Baixar App"
+let deferredPWAInstall = null;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPWAInstall = e;
+    // Optionally you could show a UI hint that installing is available
+    console.log('[PWA] beforeinstallprompt capturado.');
+});
+
+if (installBtn) {
+    installBtn.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        // Se o prompt está disponível, chamamos o instalador
+        if (deferredPWAInstall) {
+            deferredPWAInstall.prompt();
+            const choice = await deferredPWAInstall.userChoice;
+            console.log('[PWA] Resultado do prompt de instalação:', choice.outcome);
+            deferredPWAInstall = null;
+        } else {
+            // Fallback: abrir página externa para instruções/baixar
+            window.open('https://vestquiz.netlify.app/', '_blank');
+        }
+    });
 }

@@ -211,6 +211,8 @@ body {
     }
 }
 
+/* Nota: scroll não deve ser desativado — animações de scroll serão desabilitadas via JS no mobile */
+
 @media (max-width: 360px) {
     #profileAvatar { width: 60px; height: 60px; }
     #profileName { font-size: 0.95rem; }
